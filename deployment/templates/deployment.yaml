@@ -52,11 +52,11 @@ spec:
             - name: DB_NAME
               value: {{ .Values.postgresql.auth.database | quote }}
             - name: DB_PASSWORD
-              value: {{ .Values.postgresql.auth.password | quote }}
+              value: {{ .Values.postgresql.auth.postgresPassword | quote }}
             - name: DB_USERNAME
-              value: {{ .Values.postgresql.auth.username | quote }}
+              value: postgres
             - name: DB_PORT
-              value: {{ .Values.postgresql.global.postgresql.servicePort | quote }}
+              value: {{ .Values.postgresql.servicePort | quote }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
