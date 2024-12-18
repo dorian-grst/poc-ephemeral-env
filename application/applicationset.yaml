@@ -1,0 +1,43 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: beep-front-applicationset
+  namespace: argocd
+spec:
+  generators:
+  - pullRequest:
+      github:
+        owner: dorian-grst
+        repo: poc-ephemeral-env
+        tokenRef:
+          secretName: github-app-repo-creds
+          key: token
+      requeueAfterSeconds: 30
+  template:
+    metadata:
+      name: 'ephemeral-{{number}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/dorian-grst/poc-ephemeral-env.git
+        targetRevision: HEAD
+        path: deployment
+        helm:
+          releaseName: ephemeral-{{number}}
+          valuesObject:
+              ingress:
+                hosts:
+                  - host: ephemeral-{{number}}.hponthieu.com
+                    paths:
+                    - path: /
+                      pathType: ImplementationSpecific                      
+              image: 
+                tag: '{{head_short_sha}}' # Replace by a commit sha or any value that may identify the version
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'ephemeral'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
