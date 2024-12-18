@@ -57,5 +57,7 @@ COPY --from=builder --chown=node:node /app/node_modules ./node_modules
 # Use the node user from the image
 USER node
 
+EXPOSE 3000
+
 # Start the server
 CMD ["node", "dist/main.js"]

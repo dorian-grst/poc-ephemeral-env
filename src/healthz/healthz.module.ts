@@ -8,12 +8,12 @@ import { User } from 'src/user/entities/user.entity';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      password: 'postgres',
-      username: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      password: process.env.DB_PASSWORD,
+      username: process.env.DB_USERNAME,
       entities: [User],
-      database: 'postgres',
+      database: process.env.DB_NAME,
       synchronize: true,
       logging: true,
     }),

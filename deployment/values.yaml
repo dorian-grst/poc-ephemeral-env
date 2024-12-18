@@ -1,9 +1,8 @@
-
 image:
   repository: rapidement/poc-ephemeral-env
   pullPolicy: IfNotPresent
   # Dynamically set the tag
-  tag: ""
+  tag: b2e3bf7
 
 ingress:
   enabled: true
@@ -11,17 +10,16 @@ ingress:
   annotations: {}
   hosts:
   # Dynamically set the host
-    - host: chart-example.local
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+  - host: test.hponthieu.com
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
   tls: []
-
 
 # Default important values. Do not touch it
 service:
   type: ClusterIP
-  port: 80
+  port: 3000
 replicaCount: 1
 
 imagePullSecrets: []
@@ -47,3 +45,11 @@ volumeMounts: []
 nodeSelector: {}
 tolerations: []
 affinity: {}
+
+postgresql:
+  enabled: true
+  servicePort: 5432
+  auth:
+    enablePostgresUser: true
+    postgresPassword: postgres
+    database: test
