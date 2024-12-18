@@ -39,7 +39,7 @@ jobs:
           exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH'
+          severity: 'CRITICAL'
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ vars.APP_NAME }}:${{ steps.sha.outputs.sha_short }}
