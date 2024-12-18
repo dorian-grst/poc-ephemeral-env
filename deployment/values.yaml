@@ -2,7 +2,7 @@ image:
   repository: rapidement/poc-ephemeral-env
   pullPolicy: IfNotPresent
   # Dynamically set the tag
-  tag: 97bdf93
+  tag: b2e3bf7
 
 ingress:
   enabled: true
@@ -50,7 +50,10 @@ postgresql:
   enabled: true
   global:
     postgresql:
-      postgresqlDatabase: "postgres"
-      postgresqlPassword: "postgres"
-      postgresqlUsername: "postgres"
       servicePort: "5432"
+  auth:
+    enablePostgresUser: true
+    postgresPassword: "postgres"
+    username: "postgres"
+    password: "postgres"
+    database: "postgres"

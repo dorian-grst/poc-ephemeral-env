@@ -40,35 +40,23 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-        env:
-          {{- if .Values.postgresql.enabled }}
-          - name: SPRING_PROFILE
-            value: "kyma"
-          - name: DB_HOST
-            value: "{{ .Release.Name}}-postgresql-headless"
-          - name: DB_NAME
-            value: {{ .Values.postgresql.global.postgresql.postgresqlDatabase | quote }}
-          - name: DB_PASSWORD
-            value: {{ .Values.postgresql.global.postgresql.postgresqlPassword | quote }}
-          - name: DB_USERNAME
-            value: {{ .Values.postgresql.global.postgresql.postgresqlUsername | quote }}
-          - name: DB_PORT
-            value: {{ .Values.postgresql.global.postgresql.servicePort | quote }}
-          {{- end }}
+          env:
+            - name: DB_HOST
+              value: "{{ .Release.Name}}-postgresql"
+            - name: DB_NAME
+              value: {{ .Values.postgresql.auth.database | quote }}
+            - name: DB_PASSWORD
+              value: {{ .Values.postgresql.auth.password | quote }}
+            - name: DB_USERNAME
+              value: {{ .Values.postgresql.auth.username | quote }}
+            - name: DB_PORT
+              value: {{ .Values.postgresql.global.postgresql.servicePort | quote }}
       {{- with .Values.volumes }}
       volumes:
         {{- toYaml . | nindent 8 }}
